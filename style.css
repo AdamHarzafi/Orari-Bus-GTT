@@ -1,0 +1,206 @@
+/* --- Stili Generali e Design Moderno --- */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap');
+
+:root {
+    --background-top: #0d1b2a;
+    --background-bottom: #121212;
+    --primary-text-color: #EAEAEA;
+    --secondary-text-color: #A0A0A0;
+    --accent-color: #0085FF;
+    --card-background: rgba(30, 30, 30, 0.7);
+    --border-color: #333333;
+    --error-color: #ff5252;
+    --animation-duration: 0.5s;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html {
+    height: 100%;
+}
+
+body {
+    min-height: 100%;
+    font-family: 'Inter', sans-serif;
+    background-color: var(--background-bottom);
+    background-image: linear-gradient(to bottom, var(--background-top), var(--background-bottom));
+    color: var(--primary-text-color);
+    display: flex;
+    flex-direction: column;
+    
+    /* Per l'animazione di dissolvenza */
+    opacity: 1;
+    transition: opacity var(--animation-duration) ease-in-out;
+}
+
+body.fade-out {
+    opacity: 0;
+}
+
+/* Il container ora limita solo la larghezza e il padding */
+.container {
+    width: 100%;
+    max-width: 500px;
+    padding: 20px;
+    text-align: center;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+/* --- Schermata di Benvenuto (Splash Screen) --- */
+#splash-screen {
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
+    z-index: 100;
+    background-image: linear-gradient(to bottom, var(--background-top), var(--background-bottom));
+    
+    /* REGOLE DI CENTRAGGIO PERFETTO */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    
+    opacity: 1;
+    visibility: visible;
+    transition: opacity 0.8s ease-in-out, visibility 0.8s ease-in-out;
+}
+
+.splash-header {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 20px;
+}
+.splash-header .logo { max-height: 45px; width: auto; }
+.splash-header .logo-separator { font-size: 2rem; color: var(--secondary-text-color); }
+.splash-title { font-size: 2.8rem; font-weight: 700; margin: 40px 0; }
+
+.loader {
+    width: 50px;
+    height: 50px;
+    border: 5px solid var(--border-color);
+    border-top-color: var(--accent-color);
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin { to { transform: rotate(360deg); } }
+
+/* --- Contenuto Principale --- */
+#main-content {
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.8s ease-in-out 0.5s;
+    width: 100%;
+    flex-grow: 1; /* Occupa lo spazio disponibile tra header e footer */
+    
+    /* REGOLE DI CENTRAGGIO PERFETTO */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+#main-content h1 { font-size: 2rem; margin-bottom: 10px; }
+#main-content p.note { color: var(--secondary-text-color); margin-bottom: 25px; font-size: 0.9rem; }
+
+/* --- Form di Input --- */
+#stop-form { display: flex; flex-direction: column; gap: 15px; width: 100%; }
+
+#stop-number-input {
+    padding: 14px;
+    font-size: 1.1rem;
+    text-align: center;
+    background-color: var(--card-background);
+    color: var(--primary-text-color);
+    border: 2px solid var(--border-color);
+    border-radius: 8px;
+    transition: border-color 0.3s, box-shadow 0.3s;
+    backdrop-filter: blur(5px);
+    -webkit-appearance: none;
+    margin: 0;
+}
+#stop-number-input:focus {
+    outline: none;
+    border-color: var(--accent-color);
+    box-shadow: 0 0 10px rgba(0, 133, 255, 0.3);
+}
+
+#submit-button {
+    padding: 15px;
+    font-size: 1.1rem;
+    font-weight: 700;
+    background-color: var(--accent-color);
+    color: white;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.3s, transform 0.2s;
+}
+#submit-button:hover { background-color: #006bce; }
+#submit-button:active { transform: scale(0.98); }
+
+/* --- Area Risultati --- */
+#results-container { margin-top: 30px; text-align: left; width: 100%; }
+
+.bus-arrival {
+    background-color: var(--card-background);
+    padding: 18px;
+    border-left: 5px solid var(--accent-color);
+    margin-bottom: 15px;
+    border-radius: 0 8px 8px 0;
+    opacity: 0;
+    transform: translateY(20px);
+    animation: fadeIn 0.5s forwards;
+    backdrop-filter: blur(5px);
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+@keyframes fadeIn { to { opacity: 1; transform: translateY(0); } }
+
+.bus-arrival-header { display: flex; align-items: center; gap: 10px; font-weight: 700; font-size: 1.2rem; }
+.bus-arrival-header .bus-icon { font-size: 1.1rem; color: var(--accent-color); }
+.bus-arrival-times { font-size: 1rem; color: var(--secondary-text-color); padding-left: 32px; word-break: break-word; }
+
+/* --- Messaggi di Stato --- */
+.status-message { margin-top: 20px; padding: 15px; border-radius: 8px; text-align: center; }
+.loading { color: var(--accent-color); }
+.error { background-color: rgba(255, 82, 82, 0.1); color: var(--error-color); border: 1px solid var(--error-color); backdrop-filter: blur(5px); }
+
+/* --- Footer --- */
+#app-footer { width: 100%; color: var(--secondary-text-color); font-size: 0.8rem; }
+.footer-links { margin-bottom: 8px; }
+.footer-links a { color: var(--secondary-text-color); text-decoration: none; transition: color 0.3s; }
+.footer-links a:hover { color: var(--primary-text-color); }
+.footer-links span { margin: 0 10px; }
+
+/* Stili per le pagine Privacy e Termini */
+.static-page-container {
+    padding: 40px;
+    max-width: 700px;
+    margin: 40px auto; /* Centra il contenitore */
+    text-align: left;
+    background-color: var(--card-background);
+    border-radius: 8px;
+    backdrop-filter: blur(5px);
+}
+.static-page-container h1 { font-size: 2rem; margin-bottom: 20px; color: var(--accent-color); }
+.static-page-container h2 { font-size: 1.4rem; margin-top: 25px; margin-bottom: 10px; }
+.static-page-container p, .static-page-container li { line-height: 1.6; color: var(--secondary-text-color); }
+.static-page-container a { color: var(--accent-color); }
+
+/* --- Media Queries per Responsività Mobile --- */
+@media (max-width: 480px) {
+    .splash-title { font-size: 2.2rem; }
+    #main-content h1 { font-size: 1.7rem; }
+    .container { padding: 15px; }
+    .static-page-container { margin: 20px 15px; padding: 25px; }
+}

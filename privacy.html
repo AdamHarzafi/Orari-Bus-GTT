@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Privacy Policy - Orari Autobus GTT</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="static-page-container">
+        <h1>Informativa sulla Privacy</h1>
+        <p><strong>Ultimo aggiornamento:</strong> 19 Giugno 2025</p>
+        <h2>Introduzione</h2>
+        <p>Questa informativa sulla privacy descrive come vengono raccolti, utilizzati e protetti i dati quando utilizzi la nostra applicazione web per la visualizzazione degli orari degli autobus GTT (di seguito "Servizio"). La tua privacy è importante per noi.</p>
+        <h2>Dati Raccolti</h2>
+        <p>L'unica informazione che viene elaborata attivamente dal nostro Servizio è il <strong>numero della fermata</strong> dell'autobus che inserisci nel campo di ricerca.</p>
+        <ul>
+            <li><strong>Nessun dato personale:</strong> Non raccogliamo, memorizziamo o richiediamo alcuna informazione personale identificabile come nome, email, posizione GPS o identificativi del dispositivo.</li>
+            <li><strong>Nessun cookie di tracciamento:</strong> Non utilizziamo cookie o altre tecnologie per tracciare la tua attività di navigazione.</li>
+        </ul>
+        <h2>Come Utilizziamo i Dati</h2>
+        <p>Il numero della fermata che fornisci viene utilizzato esclusivamente per inoltrare una richiesta a un'API di terze parti, che fornisce gli orari di arrivo degli autobus per quella specifica fermata. Il nostro server agisce come un proxy e il numero di fermata non viene memorizzato.</p>
+        <a href="index.html" style="margin-top: 30px; display: inline-block;">Torna alla Home</a>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const navLinks = document.querySelectorAll('a[href]:not([href^="#"])');
+            navLinks.forEach(link => {
+                link.addEventListener('click', (event) => {
+                    event.preventDefault();
+                    const destination = link.href;
+                    document.body.classList.add('fade-out');
+                    setTimeout(() => {
+                        window.location.href = destination;
+                    }, 500);
+                });
+            });
+        });
+    </script>
+</body>
+</html>

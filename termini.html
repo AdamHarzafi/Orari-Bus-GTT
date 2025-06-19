@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Termini di Servizio - Orari Autobus GTT</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="static-page-container">
+        <h1>Termini di Servizio</h1>
+        <p><strong>Ultimo aggiornamento:</strong> 19 Giugno 2025</p>
+
+        <h2>1. Accettazione dei Termini</h2>
+        <p>
+            Utilizzando l'applicazione web per gli orari degli autobus GTT (il "Servizio"), accetti di essere vincolato da questi Termini di Servizio. Se non sei d'accordo con una qualsiasi parte dei termini, non puoi utilizzare il Servizio.
+        </p>
+
+        <h2>2. Descrizione del Servizio</h2>
+        <p>
+            Il Servizio fornisce un'interfaccia per visualizzare gli orari di arrivo previsti per gli autobus della rete GTT (Gruppo Torinese Trasporti) a una specifica fermata. I dati sono ottenuti in tempo reale da un'API di terze parti e sono forniti solo a scopo informativo.
+        </p>
+        
+        <h2>3. Accuratezza delle Informazioni</h2>
+        <p>
+            Facciamo del nostro meglio per fornire dati accurati e aggiornati. Tuttavia, non garantiamo l'accuratezza, la completezza o l'affidabilità delle informazioni sugli orari. I dati dipendono da fonti esterne e possono essere soggetti a ritardi, imprecisioni o interruzioni. Il Servizio è fornito "così com'è" e non deve essere utilizzato come unica fonte per la pianificazione di viaggi critici.
+        </p>
+
+        <h2>4. Utilizzo Consentito</h2>
+        <p>
+            Il Servizio è destinato a un uso personale e non commerciale. È vietato utilizzare il servizio per scopi illegali, per sovraccaricare i nostri server attraverso richieste automatizzate (scraping) o per qualsiasi altra attività che possa compromettere l'integrità o la performance dell'applicazione.
+        </p>
+
+        <h2>5. Limitazione di Responsabilità</h2>
+        <p>
+            In nessun caso Harzafi o i suoi sviluppatori saranno responsabili per eventuali danni diretti, indiretti, incidentali o consequenziali derivanti dall'uso o dall'impossibilità di utilizzare il Servizio, anche se informati della possibilità di tali danni.
+        </p>
+
+        <h2>6. Proprietà Intellettuale</h2>
+        <p>
+            I loghi "Harzafi" e "GTT" sono marchi registrati dei rispettivi proprietari. Il design e il codice dell'applicazione sono di proprietà di Harzafi. © 2025 Tutti i diritti riservati.
+        </p>
+
+        <a href="index.html" style="margin-top: 30px; display: inline-block;">Torna alla Home</a>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const navLinks = document.querySelectorAll('a[href]:not([href^="#"])');
+            navLinks.forEach(link => {
+                link.addEventListener('click', (event) => {
+                    event.preventDefault();
+                    const destination = link.href;
+                    document.body.classList.add('fade-out');
+                    setTimeout(() => {
+                        window.location.href = destination;
+                    }, 500);
+                });
+            });
+        });
+    </script>
+</body>
+</html>

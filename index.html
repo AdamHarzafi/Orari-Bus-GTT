@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Orari Autobus GTT</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+    <script src="script.js" defer></script>
+</head>
+<body>
+
+    <div id="splash-screen">
+        <div class="splash-header">
+            <img src="LOGO HARZAFI.png" alt="Logo Harzafi" class="logo">
+            <span class="logo-separator">×</span>
+            <img src="Logo_GTT.png" alt="Logo GTT" class="logo">
+        </div>
+        <h1 class="splash-title">Benvenuto</h1>
+        <div class="loader"></div>
+    </div>
+
+    <div id="main-content">
+        <div class="container">
+            <h1>In quale fermata ti trovi?</h1>
+            <p class="note">Il numero della fermata si trova sul palo del bus.</p>
+
+            <form id="stop-form">
+                <input 
+                    type="number" 
+                    id="stop-number-input" 
+                    placeholder="Es. 29" 
+                    required 
+                    inputmode="numeric" 
+                    pattern="[0-9]*"
+                >
+                <button type="submit" id="submit-button">Cerca Arrivi</button>
+            </form>
+
+            <div id="results-container">
+                </div>
+        </div>
+    </div>
+
+    <footer id="app-footer">
+        <div class="container">
+            <div class="footer-links">
+                <a href="privacy.html">Privacy</a>
+                <span>|</span>
+                <a href="termini.html">Termini di Servizio</a>
+            </div>
+            <div class="footer-copyright">
+                © 2025 Harzafi - Tutti i diritti riservati.
+            </div>
+        </div>
+    </footer>
+
+</body>
+</html>
