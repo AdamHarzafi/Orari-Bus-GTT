@@ -19,29 +19,38 @@
     box-sizing: border-box;
 }
 
+/* MODIFICA CHIAVE: Risoluzione bug dello sfondo */
 html {
     height: 100%;
+    background-color: var(--background-bottom); /* Colore di fallback */
+    background-image: linear-gradient(to bottom, var(--background-top), var(--background-bottom));
+    background-attachment: fixed; /* Impedisce al gradiente di scrollare */
+}
+
+/* MODIFICA CHIAVE: Aggiunta animazione di entrata */
+@keyframes fadeInPage {
+    from { opacity: 0; }
+    to { opacity: 1; }
 }
 
 body {
     min-height: 100%;
     font-family: 'Inter', sans-serif;
-    background-color: var(--background-bottom);
-    background-image: linear-gradient(to bottom, var(--background-top), var(--background-bottom));
     color: var(--primary-text-color);
     display: flex;
     flex-direction: column;
     
-    /* Per l'animazione di dissolvenza */
-    opacity: 1;
+    /* Applica l'animazione di entrata */
+    animation: fadeInPage var(--animation-duration) ease-in-out;
+    /* Transizione per l'animazione di uscita (quando si clicca un link) */
     transition: opacity var(--animation-duration) ease-in-out;
 }
 
+/* Classe per attivare la dissolvenza in uscita */
 body.fade-out {
     opacity: 0;
 }
 
-/* Il container ora limita solo la larghezza e il padding */
 .container {
     width: 100%;
     max-width: 500px;
@@ -59,9 +68,9 @@ body.fade-out {
     height: 100%;
     width: 100%;
     z-index: 100;
-    background-image: linear-gradient(to bottom, var(--background-top), var(--background-bottom));
+    /* Lo sfondo ora è sull'html, quindi questo può essere trasparente */
+    background-color: transparent; 
     
-    /* REGOLE DI CENTRAGGIO PERFETTO */
     display: flex;
     justify-content: center;
     align-items: center;
@@ -99,9 +108,8 @@ body.fade-out {
     visibility: hidden;
     transition: opacity 0.8s ease-in-out 0.5s;
     width: 100%;
-    flex-grow: 1; /* Occupa lo spazio disponibile tra header e footer */
+    flex-grow: 1;
     
-    /* REGOLE DI CENTRAGGIO PERFETTO */
     display: flex;
     align-items: center;
     justify-content: center;
@@ -114,33 +122,16 @@ body.fade-out {
 #stop-form { display: flex; flex-direction: column; gap: 15px; width: 100%; }
 
 #stop-number-input {
-    padding: 14px;
-    font-size: 1.1rem;
-    text-align: center;
-    background-color: var(--card-background);
-    color: var(--primary-text-color);
-    border: 2px solid var(--border-color);
-    border-radius: 8px;
-    transition: border-color 0.3s, box-shadow 0.3s;
-    backdrop-filter: blur(5px);
-    -webkit-appearance: none;
-    margin: 0;
+    padding: 14px; font-size: 1.1rem; text-align: center; background-color: var(--card-background);
+    color: var(--primary-text-color); border: 2px solid var(--border-color); border-radius: 8px;
+    transition: border-color 0.3s, box-shadow 0.3s; backdrop-filter: blur(5px);
+    -webkit-appearance: none; margin: 0;
 }
-#stop-number-input:focus {
-    outline: none;
-    border-color: var(--accent-color);
-    box-shadow: 0 0 10px rgba(0, 133, 255, 0.3);
-}
+#stop-number-input:focus { outline: none; border-color: var(--accent-color); box-shadow: 0 0 10px rgba(0, 133, 255, 0.3); }
 
 #submit-button {
-    padding: 15px;
-    font-size: 1.1rem;
-    font-weight: 700;
-    background-color: var(--accent-color);
-    color: white;
-    border: none;
-    border-radius: 8px;
-    cursor: pointer;
+    padding: 15px; font-size: 1.1rem; font-weight: 700; background-color: var(--accent-color);
+    color: white; border: none; border-radius: 8px; cursor: pointer;
     transition: background-color 0.3s, transform 0.2s;
 }
 #submit-button:hover { background-color: #006bce; }
@@ -150,21 +141,12 @@ body.fade-out {
 #results-container { margin-top: 30px; text-align: left; width: 100%; }
 
 .bus-arrival {
-    background-color: var(--card-background);
-    padding: 18px;
-    border-left: 5px solid var(--accent-color);
-    margin-bottom: 15px;
-    border-radius: 0 8px 8px 0;
-    opacity: 0;
-    transform: translateY(20px);
-    animation: fadeIn 0.5s forwards;
-    backdrop-filter: blur(5px);
-    display: flex;
-    flex-direction: column;
-    gap: 8px;
+    background-color: var(--card-background); padding: 18px; border-left: 5px solid var(--accent-color);
+    margin-bottom: 15px; border-radius: 0 8px 8px 0; opacity: 0; transform: translateY(20px);
+    animation: fadeInResult 0.5s forwards; backdrop-filter: blur(5px); display: flex; flex-direction: column; gap: 8px;
 }
 
-@keyframes fadeIn { to { opacity: 1; transform: translateY(0); } }
+@keyframes fadeInResult { to { opacity: 1; transform: translateY(0); } }
 
 .bus-arrival-header { display: flex; align-items: center; gap: 10px; font-weight: 700; font-size: 1.2rem; }
 .bus-arrival-header .bus-icon { font-size: 1.1rem; color: var(--accent-color); }
@@ -184,20 +166,15 @@ body.fade-out {
 
 /* Stili per le pagine Privacy e Termini */
 .static-page-container {
-    padding: 40px;
-    max-width: 700px;
-    margin: 40px auto; /* Centra il contenitore */
-    text-align: left;
-    background-color: var(--card-background);
-    border-radius: 8px;
-    backdrop-filter: blur(5px);
+    padding: 40px; max-width: 700px; margin: 40px auto; text-align: left;
+    background-color: var(--card-background); border-radius: 8px; backdrop-filter: blur(5px);
 }
 .static-page-container h1 { font-size: 2rem; margin-bottom: 20px; color: var(--accent-color); }
 .static-page-container h2 { font-size: 1.4rem; margin-top: 25px; margin-bottom: 10px; }
 .static-page-container p, .static-page-container li { line-height: 1.6; color: var(--secondary-text-color); }
 .static-page-container a { color: var(--accent-color); }
 
-/* --- Media Queries per Responsività Mobile --- */
+/* --- Media Queries --- */
 @media (max-width: 480px) {
     .splash-title { font-size: 2.2rem; }
     #main-content h1 { font-size: 1.7rem; }
