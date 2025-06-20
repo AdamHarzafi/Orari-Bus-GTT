@@ -1,3 +1,5 @@
+// script.js
+
 // Attende che tutta la pagina sia caricata
 window.addEventListener('DOMContentLoaded', () => {
     const splashScreen = document.getElementById('splash-screen');
@@ -32,7 +34,13 @@ window.addEventListener('DOMContentLoaded', () => {
      * Recupera i dati degli arrivi dal server proxy.
      */
     async function getBusArrivals(stopNumber) {
-        resultsContainer.innerHTML = '<div class="status-message loading">Ricerca in corso...</div>';
+        // --- MODIFICA QUI ---
+        // Sostituisce il testo con un div contenente il logo di caricamento (loader)
+        resultsContainer.innerHTML = `
+            <div class="loading-container">
+                <div class="loader"></div>
+            </div>
+        `;
 
         try {
             const serverUrl = 'https://orari-bus-gtt.onrender.com';
@@ -79,7 +87,6 @@ window.addEventListener('DOMContentLoaded', () => {
             const arrivalDiv = document.createElement('div');
             arrivalDiv.className = 'bus-arrival';
             
-            // MODIFICA: Contenuto del bus a sinistra, logo disabilità a destra
             arrivalDiv.innerHTML = `
                 <div class="bus-arrival-content">
                     <div class="bus-arrival-header">
