@@ -19,15 +19,13 @@
     box-sizing: border-box;
 }
 
-/* MODIFICA CHIAVE: Risoluzione bug dello sfondo */
 html {
     height: 100%;
-    background-color: var(--background-bottom); /* Colore di fallback */
+    background-color: var(--background-bottom);
     background-image: linear-gradient(to bottom, var(--background-top), var(--background-bottom));
-    background-attachment: fixed; /* Impedisce al gradiente di scrollare */
+    background-attachment: fixed;
 }
 
-/* MODIFICA CHIAVE: Aggiunta animazione di entrata */
 @keyframes fadeInPage {
     from { opacity: 0; }
     to { opacity: 1; }
@@ -39,14 +37,10 @@ body {
     color: var(--primary-text-color);
     display: flex;
     flex-direction: column;
-    
-    /* Applica l'animazione di entrata */
     animation: fadeInPage var(--animation-duration) ease-in-out;
-    /* Transizione per l'animazione di uscita (quando si clicca un link) */
     transition: opacity var(--animation-duration) ease-in-out;
 }
 
-/* Classe per attivare la dissolvenza in uscita */
 body.fade-out {
     opacity: 0;
 }
@@ -68,14 +62,11 @@ body.fade-out {
     height: 100%;
     width: 100%;
     z-index: 100;
-    /* Lo sfondo ora è sull'html, quindi questo può essere trasparente */
     background-color: transparent; 
-    
     display: flex;
     justify-content: center;
     align-items: center;
     flex-direction: column;
-    
     opacity: 1;
     visibility: visible;
     transition: opacity 0.8s ease-in-out, visibility 0.8s ease-in-out;
@@ -109,7 +100,6 @@ body.fade-out {
     transition: opacity 0.8s ease-in-out 0.5s;
     width: 100%;
     flex-grow: 1;
-    
     display: flex;
     align-items: center;
     justify-content: center;
@@ -141,16 +131,60 @@ body.fade-out {
 #results-container { margin-top: 30px; text-align: left; width: 100%; }
 
 .bus-arrival {
-    background-color: var(--card-background); padding: 18px; border-left: 5px solid var(--accent-color);
-    margin-bottom: 15px; border-radius: 0 8px 8px 0; opacity: 0; transform: translateY(20px);
-    animation: fadeInResult 0.5s forwards; backdrop-filter: blur(5px); display: flex; flex-direction: column; gap: 8px;
+    background-color: var(--card-background);
+    padding: 18px;
+    border-left: 5px solid var(--accent-color);
+    margin-bottom: 15px;
+    border-radius: 0 8px 8px 0;
+    opacity: 0;
+    transform: translateY(20px);
+    animation: fadeInResult 0.5s forwards;
+    backdrop-filter: blur(5px);
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 15px;
 }
 
 @keyframes fadeInResult { to { opacity: 1; transform: translateY(0); } }
 
-.bus-arrival-header { display: flex; align-items: center; gap: 10px; font-weight: 700; font-size: 1.2rem; }
-.bus-arrival-header .bus-icon { font-size: 1.1rem; color: var(--accent-color); }
-.bus-arrival-times { font-size: 1rem; color: var(--secondary-text-color); padding-left: 32px; word-break: break-word; }
+/* Stile per il logo disabilità */
+.disability-logo {
+    width: 40px;
+    height: 40px;
+    flex-shrink: 0;
+}
+
+/* Contenitore per il contenuto originale (bus+testo) */
+.bus-arrival-content {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    /* MODIFICA CHIAVE: Fa in modo che questo contenitore occupi tutto lo spazio disponibile, spingendo il logo a destra */
+    flex-grow: 1;
+}
+
+/* Stile originale per l'header */
+.bus-arrival-header {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-weight: 700;
+    font-size: 1.2rem;
+}
+
+/* Icona bus originale */
+.bus-arrival-header .bus-icon {
+    font-size: 1.1rem;
+    color: var(--accent-color);
+}
+
+/* Stile originale per gli orari */
+.bus-arrival-times {
+    font-size: 1rem;
+    color: var(--secondary-text-color);
+    word-break: break-word;
+}
 
 /* --- Messaggi di Stato --- */
 .status-message { margin-top: 20px; padding: 15px; border-radius: 8px; text-align: center; }
