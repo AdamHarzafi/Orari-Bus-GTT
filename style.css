@@ -1,3 +1,5 @@
+/* style.css */
+
 /* --- Stili Generali e Design Moderno --- */
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap');
 
@@ -160,11 +162,9 @@ body.fade-out {
     display: flex;
     flex-direction: column;
     gap: 8px;
-    /* MODIFICA CHIAVE: Fa in modo che questo contenitore occupi tutto lo spazio disponibile, spingendo il logo a destra */
     flex-grow: 1;
 }
 
-/* Stile originale per l'header */
 .bus-arrival-header {
     display: flex;
     align-items: center;
@@ -173,23 +173,29 @@ body.fade-out {
     font-size: 1.2rem;
 }
 
-/* Icona bus originale */
 .bus-arrival-header .bus-icon {
     font-size: 1.1rem;
     color: var(--accent-color);
 }
 
-/* Stile originale per gli orari */
 .bus-arrival-times {
     font-size: 1rem;
     color: var(--secondary-text-color);
     word-break: break-word;
 }
 
-/* --- Messaggi di Stato --- */
+/* --- Messaggi di Stato e Loader --- */
 .status-message { margin-top: 20px; padding: 15px; border-radius: 8px; text-align: center; }
-.loading { color: var(--accent-color); }
 .error { background-color: rgba(255, 82, 82, 0.1); color: var(--error-color); border: 1px solid var(--error-color); backdrop-filter: blur(5px); }
+
+/* --- NUOVO STILE --- */
+/* Contenitore per centrare il loader della ricerca */
+.loading-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px 0; /* Aggiunge spazio verticale */
+}
 
 /* --- Footer --- */
 #app-footer { width: 100%; color: var(--secondary-text-color); font-size: 0.8rem; }
