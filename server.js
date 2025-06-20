@@ -4,46 +4,38 @@ const cors = require('cors');
 const path = require('path');
 
 const app = express();
+// Render fornirà la porta corretta, non dobbiamo preoccuparcene
 const PORT = process.env.PORT || 5500;
 
-// Abilita CORS per permettere le richieste dal frontend
+// 1. Abilita CORS per la massima compatibilità
 app.use(cors());
 
-// Serve i file statici (CSS, JS, immagini) dalla cartella principale
+// 2. Dice al server di servire i file del tuo sito (index.html, style.css, etc.)
 app.use(express.static(path.join(__dirname, '')));
 
-// Endpoint dell'API per recuperare gli orari
+// 3. L'API personale che il tuo sito chiamerà
 app.get('/api/arrivi/:stopNumber', async (req, res) => {
     const { stopNumber } = req.params;
     const apiUrl = `http://gpa.madbob.org/query.php?stop=${stopNumber}`;
 
-    console.log(`[API] Ricevuta richiesta per fermata: ${stopNumber}. Chiamo ${apiUrl}`);
+    console.log(`Richiesta ricevuta per la fermata: ${stopNumber}`);
 
     try {
         const response = await axios.get(apiUrl);
-        const apiData = response.data;
-        
-        const arrivals = apiData.map(item => ({
-            line: item.line,
-            time: `alle ${item.hour}`
-        }));
-        
-        console.log(`[API] Trovati ${arrivals.length} arrivi. Invio dati.`);
-        res.json(arrivals);
-
+        // Inoltriamo i dati così come arrivano
+        res.json(response.data);
     } catch (error) {
-        console.error("[ERRORE API]:", error.message);
-        res.status(500).json({ error: 'Fermata non trovata o servizio non disponibile.' });
+        console.error("Errore nel contattare l'API GTT:", error.message);
+        res.status(500).json({ error: 'Fermata non trovata o servizio esterno non disponibile.' });
     }
 });
 
-// Route principale per servire il file index.html
+// 4. Assicura che chiunque visiti l'indirizzo principale riceva la tua pagina index.html
 app.get('/', (req, res) => {
     res.sendFile(path.join(__dirname, 'index.html'));
 });
 
-// Avvio del server
+// 5. Avvio del server
 app.listen(PORT, () => {
-    console.log(`🚀 Server in ascolto sulla porta ${PORT}`);
-    console.log('Utilizzando la fonte dati API: gpa.madbob.org');
+    console.log(`Server avviato e in ascolto sulla porta ${PORT}`);
 });
