@@ -16,7 +16,7 @@ window.addEventListener('DOMContentLoaded', () => {
             splashScreen.style.visibility = 'hidden';
             mainContent.style.visibility = 'visible';
             mainContent.style.opacity = '1';
-            footer.style.visibility = 'visible'; 
+            footer.style.visibility = 'visible';
             footer.style.opacity = '1';
         }, 2500);
     }
@@ -31,7 +31,8 @@ window.addEventListener('DOMContentLoaded', () => {
     });
 
     /**
-     * Recupera i dati degli arrivi dal server.
+     * Recupera i dati degli arrivi usando un proxy pubblico per evitare problemi di CORS.
+     * Questa versione funziona su host statici come GitHub Pages.
      */
     async function getBusArrivals(stopNumber) {
         resultsContainer.innerHTML = `
@@ -40,26 +41,40 @@ window.addEventListener('DOMContentLoaded', () => {
             </div>
         `;
 
+        // L'URL dell'API esterna che vogliamo chiamare
+        const apiUrl = `http://gpa.madbob.org/query.php?stop=${stopNumber}`;
+        
+        // Usiamo un proxy pubblico per aggirare le restrizioni di sicurezza (CORS)
+        // Il proxy fa la chiamata per noi e ci restituisce il risultato
+        const proxyUrl = `https://api.allorigins.win/raw?url=${encodeURIComponent(apiUrl)}`;
+
         try {
-            // La chiamata API ora usa un percorso relativo, funzionerà su Render
-            const response = await fetch(`/api/arrivi/${stopNumber}`);
+            const response = await fetch(proxyUrl);
             
             if (!response.ok) {
-                const errorData = await response.json();
-                throw new Error(errorData.error || `Errore: ${response.status}`);
+                // Se il proxy o l'API danno errore
+                throw new Error(`Errore di rete: ${response.status}`);
             }
 
             const data = await response.json();
-            displayGroupedResults(data);
+            
+            // Dobbiamo adattare i dati al formato che la nostra funzione si aspetta
+            const formattedData = data.map(item => ({
+                line: item.line,
+                time: `alle ${item.hour}`
+            }));
+
+            displayGroupedResults(formattedData);
 
         } catch (error) {
             console.error('Errore durante il recupero dei dati:', error);
-            displayError(`Impossibile caricare i dati. Causa: ${error.message}`);
+            // Messaggio di errore più generico ma efficace
+            displayError(`Fermata non trovata o servizio non disponibile. Riprova.`);
         }
     }
 
     /**
-     * Raggruppa e mostra i risultati nell'HTML.
+     * Raggruppa e mostra i risultati nell'HTML. (Questa funzione rimane invariata)
      */
     function displayGroupedResults(arrivals) {
         resultsContainer.innerHTML = ''; 
@@ -69,7 +84,6 @@ window.addEventListener('DOMContentLoaded', () => {
             return;
         }
 
-        // 1. Raggruppa gli arrivi per linea
         const groupedByLine = arrivals.reduce((acc, arrival) => {
             if (!acc[arrival.line]) {
                 acc[arrival.line] = [];
@@ -79,7 +93,6 @@ window.addEventListener('DOMContentLoaded', () => {
             return acc;
         }, {});
 
-        // 2. Mostra i risultati raggruppati
         for (const line in groupedByLine) {
             const times = groupedByLine[line].join(', ');
             const arrivalDiv = document.createElement('div');
@@ -102,7 +115,7 @@ window.addEventListener('DOMContentLoaded', () => {
     }
 
     /**
-     * Mostra un messaggio di errore nell'HTML.
+     * Mostra un messaggio di errore nell'HTML. (Questa funzione rimane invariata)
      */
     function displayError(message) {
         resultsContainer.innerHTML = `<div class="status-message error">${message}</div>`;
