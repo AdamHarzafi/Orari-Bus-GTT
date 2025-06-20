@@ -1,6 +1,5 @@
 // script.js
 
-// Attende che tutta la pagina sia caricata
 window.addEventListener('DOMContentLoaded', () => {
     const splashScreen = document.getElementById('splash-screen');
     const mainContent = document.getElementById('main-content');
@@ -9,7 +8,6 @@ window.addEventListener('DOMContentLoaded', () => {
     const resultsContainer = document.getElementById('results-container');
     const footer = document.getElementById('app-footer');
 
-    // --- LOGICA DELLA SCHERMATA DI BENVENUTO ---
     if (splashScreen && mainContent) {
         setTimeout(() => {
             splashScreen.style.opacity = '0';
@@ -21,7 +19,6 @@ window.addEventListener('DOMContentLoaded', () => {
         }, 2500);
     }
 
-    // --- GESTIONE DELL'INVIO DEL FORM ---
     stopForm.addEventListener('submit', async (event) => {
         event.preventDefault();
         const stopNumber = stopInput.value.trim();
@@ -30,10 +27,6 @@ window.addEventListener('DOMContentLoaded', () => {
         }
     });
 
-    /**
-     * Recupera i dati degli arrivi usando un proxy pubblico per evitare problemi di CORS.
-     * Questa versione funziona su host statici come GitHub Pages.
-     */
     async function getBusArrivals(stopNumber) {
         resultsContainer.innerHTML = `
             <div class="loading-container">
@@ -41,24 +34,17 @@ window.addEventListener('DOMContentLoaded', () => {
             </div>
         `;
 
-        // L'URL dell'API esterna che vogliamo chiamare
-        const apiUrl = `http://gpa.madbob.org/query.php?stop=${stopNumber}`;
-        
-        // Usiamo un proxy pubblico per aggirare le restrizioni di sicurezza (CORS)
-        // Il proxy fa la chiamata per noi e ci restituisce il risultato
-        const proxyUrl = `https://api.allorigins.win/raw?url=${encodeURIComponent(apiUrl)}`;
-
         try {
-            const response = await fetch(proxyUrl);
+            // Chiamata al NOSTRO server. Il percorso relativo '/api/...' funzionerà perfettamente su Render.
+            const response = await fetch(`/api/arrivi/${stopNumber}`);
             
             if (!response.ok) {
-                // Se il proxy o l'API danno errore
-                throw new Error(`Errore di rete: ${response.status}`);
+                const errorData = await response.json();
+                throw new Error(errorData.error || `Errore dal server: ${response.status}`);
             }
 
             const data = await response.json();
             
-            // Dobbiamo adattare i dati al formato che la nostra funzione si aspetta
             const formattedData = data.map(item => ({
                 line: item.line,
                 time: `alle ${item.hour}`
@@ -68,14 +54,10 @@ window.addEventListener('DOMContentLoaded', () => {
 
         } catch (error) {
             console.error('Errore durante il recupero dei dati:', error);
-            // Messaggio di errore più generico ma efficace
-            displayError(`Fermata non trovata o servizio non disponibile. Riprova.`);
+            displayError(error.message);
         }
     }
 
-    /**
-     * Raggruppa e mostra i risultati nell'HTML. (Questa funzione rimane invariata)
-     */
     function displayGroupedResults(arrivals) {
         resultsContainer.innerHTML = ''; 
 
@@ -114,9 +96,6 @@ window.addEventListener('DOMContentLoaded', () => {
         }
     }
 
-    /**
-     * Mostra un messaggio di errore nell'HTML. (Questa funzione rimane invariata)
-     */
     function displayError(message) {
         resultsContainer.innerHTML = `<div class="status-message error">${message}</div>`;
     }
