@@ -31,11 +31,9 @@ window.addEventListener('DOMContentLoaded', () => {
     });
 
     /**
-     * Recupera i dati degli arrivi dal server proxy.
+     * Recupera i dati degli arrivi dal server.
      */
     async function getBusArrivals(stopNumber) {
-        // --- MODIFICA QUI ---
-        // Sostituisce il testo con un div contenente il logo di caricamento (loader)
         resultsContainer.innerHTML = `
             <div class="loading-container">
                 <div class="loader"></div>
@@ -43,8 +41,8 @@ window.addEventListener('DOMContentLoaded', () => {
         `;
 
         try {
-            const serverUrl = 'https://orari-bus-gtt.onrender.com';
-            const response = await fetch(`${serverUrl}/api/arrivi/${stopNumber}`);
+            // La chiamata API ora usa un percorso relativo, funzionerà su Render
+            const response = await fetch(`/api/arrivi/${stopNumber}`);
             
             if (!response.ok) {
                 const errorData = await response.json();
