@@ -54,7 +54,6 @@ window.addEventListener('DOMContentLoaded', () => {
 
     /**
      * Raggruppa e mostra i risultati nell'HTML.
-     * Gli arrivi per la stessa linea vengono messi in un unico contenitore.
      */
     function displayGroupedResults(arrivals) {
         resultsContainer.innerHTML = ''; 
@@ -69,7 +68,6 @@ window.addEventListener('DOMContentLoaded', () => {
             if (!acc[arrival.line]) {
                 acc[arrival.line] = [];
             }
-            // Estrae solo l'orario (es. "18:35" da "alle 18:35")
             const time = arrival.time.replace('alle ', '');
             acc[arrival.line].push(time);
             return acc;
@@ -77,18 +75,22 @@ window.addEventListener('DOMContentLoaded', () => {
 
         // 2. Mostra i risultati raggruppati
         for (const line in groupedByLine) {
-            const times = groupedByLine[line].join(', '); // Unisce gli orari con una virgola
+            const times = groupedByLine[line].join(', ');
             const arrivalDiv = document.createElement('div');
             arrivalDiv.className = 'bus-arrival';
             
+            // MODIFICA: Contenuto del bus a sinistra, logo disabilità a destra
             arrivalDiv.innerHTML = `
-                <div class="bus-arrival-header">
-                    <i class="fa-solid fa-bus bus-icon"></i>
-                    <span>LINEA ${line}</span>
+                <div class="bus-arrival-content">
+                    <div class="bus-arrival-header">
+                        <i class="fa-solid fa-bus bus-icon"></i>
+                        <span>LINEA ${line}</span>
+                    </div>
+                    <div class="bus-arrival-times">
+                        In arrivo alle: ${times}
+                    </div>
                 </div>
-                <div class="bus-arrival-times">
-                    In arrivo alle: ${times}
-                </div>
+                <img src="Disabilità.png" alt="Logo accessibilità" class="disability-logo">
             `;
             resultsContainer.appendChild(arrivalDiv);
         }
